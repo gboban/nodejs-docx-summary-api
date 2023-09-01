@@ -7,21 +7,6 @@ class DOCXHelper {
         this._fileBuffer = fileBuffer
     }
 
-    _getPromise = function (promise){
-        console.log("PROMISE", promise)
-        return promise
-    }
-
-    async _waitForPromise(data) {
-        try {
-          const resolvedData = await this._getPromise(data);
-          console.log("WAITED FOR", resolvedData);
-          return resolvedData; // Return the resolved value
-        } catch (error) {
-          throw error; // Rethrow the error if it occurs
-        }
-    }
-
     async getDocumentMeta ( callback ){
         const caller = this
         getDocumentProperties.fromBuffer(this._fileBuffer, async function(err, data) {
