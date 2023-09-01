@@ -1,21 +1,19 @@
-const officeParser = require("officeparser")
-const getDocumentProperties = require('office-document-properties')
 const express = require("express")
+const DOCXHelper = require("./docx_helper")
 const app = express()
 const port = 3000
 
 app.use(express.raw())
 
 app.post('/getMeta', (req, res) => {
-  const fileBuffer = null //req.body
-  getDocumentProperties.fromBuffer(fileBuffer, function(err, data) {
-    if (err){
+  var helper = new DOCXHelper(req.body)
+  helper.getDocumentMeta( (err, data) => {
+    if(err){
       console.error(err)
       res.contentType("application/json")
       res.send( { error: "error", message: err.toString() } )
-      res.end()
+      res.end()    
     }else{
-      console.log(data)
       res.contentType("application/json")
       res.json(data)
       res.end()
@@ -24,20 +22,19 @@ app.post('/getMeta', (req, res) => {
 })
 
 app.post("/getText", (req, res) => {
-  const fileBuffer = req.body
-  officeParser.parseOfficeAsync(fileBuffer)
-    .then((data) => {
-      console.log(data)
-      res.contentType("text/plain")
-      res.send(data)
-      res.end()
-    })
-    .catch((err) => {
+  var helper = new DOCXHelper(req.body)
+  helper.getDocumentText( (err, data) => {
+    if(err){
       console.error(err)
       res.contentType("application/json")
-      res.send( { error: "error", message: err } )
+      res.send( { error: "error", message: err.toString() } )
+      res.end()    
+    }else{
+      res.contentType("application/json")
+      res.json(data)
       res.end()
-    })
+    }
+  })
 })
 
 app.listen(port, () => {
