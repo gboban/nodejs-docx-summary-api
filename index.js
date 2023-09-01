@@ -30,7 +30,7 @@ app.post("/getText", (req, res) => {
       res.send( { error: "error", message: err.toString() } )
       res.end()    
     }else{
-      res.contentType("application/json")
+      res.contentType("text/plain")
       res.json(data)
       res.end()
     }
