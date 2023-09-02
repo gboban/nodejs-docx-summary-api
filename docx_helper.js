@@ -2,7 +2,7 @@ const officeParser = require("officeparser")
 const getDocumentProperties = require('office-document-properties')
 const lodash = require("lodash")
 
-class DOCXHelper {
+module.exports = class DOCXHelper {
     _fileBuffer = null
     constructor (fileBuffer){
         this._fileBuffer = fileBuffer
@@ -60,5 +60,3 @@ class DOCXHelper {
         })
     }
 }
-
-module.exports = DOCXHelper
