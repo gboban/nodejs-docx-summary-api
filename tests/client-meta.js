@@ -1,7 +1,8 @@
-const http = require('http');
+const http = require('http')
 const fs = require('fs');
+const path = require('path')
 
-const odtBuffer = fs.readFileSync('tests/TestDocumentForParsng.docx');
+const odtBuffer = fs.readFileSync(path.resolve(__dirname, 'TestDocumentForParsng.docx'))
 
 var request = http.request(
   {
@@ -16,21 +17,21 @@ var request = http.request(
   (res) => {
     console.log("connected");
     res.on("data", (chunk) => {
-      console.log("chunk", "" + chunk);
+      console.log("chunk", "" + chunk)
     });
     res.on("end", () => {
-      console.log("No more data");
+      console.log("No more data")
     });
     res.on("close", () => {
-      console.log("Closing connection");
+      console.log("Closing connection")
     });
   }
 )
 
 request.on('error', (e) => {
-  console.error(`problem with request: ${e.message}`);
+  console.error(`problem with request: ${e.message}`)
 });
 
 // Write data to request body
 request.write(odtBuffer)
-request.end(); 
+request.end()
