@@ -37,6 +37,22 @@ app.post("/getText", (req, res) => {
   })
 })
 
+app.post("/getStats", (req, res) => {
+  var helper = new DOCXHelper(req.body)
+  helper.getDocumentStats( (err, data) => {
+    if(err){
+      console.error(err)
+      res.contentType("application/json")
+      res.send( { error: "error", message: err.toString() } )
+      res.end()    
+    }else{
+      res.contentType("application/json")
+      res.json(data)
+      res.end()
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
