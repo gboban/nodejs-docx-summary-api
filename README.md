@@ -44,10 +44,10 @@ The API offers three endpoints, `getMeta`, `getText`, and `getStats`, all expect
     
     Ensure that the generated certificate (certificate.pem) and private key (private-key.pem) are placed in the sslcert/ directory within your project.
 
-3. Usage
+## Usage
 
 Please refer to the example code in the tests/ folder to see how to make POST requests to the API endpoints for metadata and text content retrieval.
 
-4. License
+## License
 
 Please see LICENSE file for details.
