@@ -33,8 +33,8 @@ The API offers three endpoints, `getMeta`, `getText`, and `getStats`, all expect
 
 2. Install dependencies:
 
-    cd nodejs-docx-summary-api
-    npm install
+    - cd nodejs-docx-summary-api
+    - npm install
 
     **HTTPS Support**
     To enable HTTPS support for your API, create an SSL certificate and private key. If you need a self-signed certificate for testing and development, you can generate one using OpenSSL:
