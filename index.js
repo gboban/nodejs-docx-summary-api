@@ -1,11 +1,33 @@
+require("dotenv").config();
+const https = require('https');
 const express = require("express")
 const DOCXHelper = require("./docx_helper")
 const app = express()
 const port = 3000
 
+// check authorization key
+function checkAuthorization(req, res, next) {
+  const token = req.headers.authorization;
+
+  // check if token is not provided or invalid token
+  if (!token || (token != process.env.AUTH_KEY)) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  jwt.verify(token, 'your_secret_key', (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
+// parse request body as raw
 app.use(express.raw())
 
-app.post('/getMeta', (req, res) => {
+// returns document meta
+app.post('/getMeta', checkAuthorization, (req, res) => {
   var helper = new DOCXHelper(req.body)
   helper.getDocumentMeta( (err, data) => {
     if(err){
@@ -21,7 +43,8 @@ app.post('/getMeta', (req, res) => {
   })
 })
 
-app.post("/getText", (req, res) => {
+// returns document text
+app.post("/getText", checkAuthorization, (req, res) => {
   var helper = new DOCXHelper(req.body)
   helper.getDocumentText( (err, data) => {
     if(err){
@@ -37,7 +60,8 @@ app.post("/getText", (req, res) => {
   })
 })
 
-app.post("/getStats", (req, res) => {
+// returns document stats
+app.post("/getStats", checkAuthorization, (req, res) => {
   var helper = new DOCXHelper(req.body)
   helper.getDocumentStats( (err, data) => {
     if(err){
@@ -53,6 +77,13 @@ app.post("/getStats", (req, res) => {
   })
 })
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
+// start server
+const sslOptions = {
+  key: fs.readFileSync('./sslcert/private-key.pem'), // Path to your private key file
+  cert: fs.readFileSync('./sslcert/certificate.pem'),   // Path to your SSL certificate file
+}
+
+const server = https.createServer(sslOptions, app);
+server.listen(port, () => {
+  console.log(`Server is running on port ${port} (HTTPS)`);
+});
