@@ -1,6 +1,8 @@
-const http = require('http')
+const http = require('https')
 const fs = require('fs')
 const path = require('path')
+
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") })
 
 const odtBuffer = fs.readFileSync(path.resolve(__dirname, 'TestDocumentForParsng.docx'))
 
@@ -11,7 +13,8 @@ var request = http.request(
     path: "/getStats",
     method: "POST",
     headers: {
-      'Content-type': "application/octet-stream"
+      'Content-type': "application/octet-stream",
+      "Authorization": process.env.AUTH_KEY
     },
   },
   (res) => {

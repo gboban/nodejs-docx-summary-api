@@ -1,7 +1,11 @@
-require("dotenv").config();
+const fs = require("fs")
+const path = require("path")
 const https = require('https');
 const express = require("express")
+require("dotenv").config();
+
 const DOCXHelper = require("./docx_helper")
+
 
 const app = express()
 const port = 3000

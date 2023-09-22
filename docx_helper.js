@@ -1,6 +1,9 @@
+require('dotenv').config()
 const officeParser = require("officeparser")
 const getDocumentProperties = require('office-document-properties')
 const lodash = require("lodash")
+
+const ignoreWords = require('./ignore_words');
 
 module.exports = class DOCXHelper {
     _fileBuffer = null
@@ -36,7 +39,6 @@ module.exports = class DOCXHelper {
             frequencies: []
           }
 
-          stats.characters = 0
           // count non-special characters in text
           lodash.forEach(data, (value, key) => {
             if(!(" !\"#$%&'()*+,-./:;?@[\]^_`{|}~\n\r\t").indexOf(value)){
@@ -45,7 +47,8 @@ module.exports = class DOCXHelper {
           })
 
           // number of words
-          stats.words = lodash.words(data).length
+          const words = lodash.words(data)
+          stats.words = words.length
 
           // number of sentences
           stats.sentences = data.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|").length
@@ -59,7 +62,7 @@ module.exports = class DOCXHelper {
               ++frequencies[lowerCaseValue]
           })
           const map = new Map(Object.entries(frequencies));
-          stats.frequencies = [...map.entries()].sort((a, b) => b[1] - a[1])
+          stats.frequencies = [...map.entries()].filter((word) => !ignoreWords.includes(word[0])).sort((a, b) => b[1] - a[1])
         
           callback(null, stats)
         })
