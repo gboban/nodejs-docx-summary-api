@@ -2,6 +2,7 @@ require("dotenv").config();
 const https = require('https');
 const express = require("express")
 const DOCXHelper = require("./docx_helper")
+
 const app = express()
 const port = 3000
 
@@ -14,13 +15,7 @@ function checkAuthorization(req, res, next) {
     return res.status(403).json({ message: 'Forbidden' });
   }
 
-  jwt.verify(token, 'your_secret_key', (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Forbidden' });
-    }
-    req.user = user;
-    next();
-  });
+  next();
 }
 
 // parse request body as raw
