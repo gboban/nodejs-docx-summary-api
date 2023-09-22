@@ -13,7 +13,7 @@ Node.js/Express API for parsing docx documents, allows you to extract document m
 
 ## Introduction
 
-This is a simple Node.js/Express API that allows you to parse docx documents. It utilizes Express, [officeparser](https://github.com/gfloyd/node-office-parser), and [office-document-properties](https://github.com/nswalton/node-office-document-properties) to extract document metadata and text content.
+This is a simple Node.js/Express API that allows you to parse docx documents. It utilizes Express, [officeparser](https://www.npmjs.com/package/officeparser), and [office-document-properties](https://www.npmjs.com/package/office-document-properties) to extract document metadata and text content.
 
 The API offers three endpoints, `getMeta`, `getText`, and `getStats`, all expect POST requests containing document data. You can find example usage in the `tests/` folder.
 
@@ -29,7 +29,7 @@ The API offers three endpoints, `getMeta`, `getText`, and `getStats`, all expect
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/nodejs-docx-summary-api.git
+   git clone https://github.com/gboban/nodejs-docx-summary-api.git
 
 2. Install dependencies:
 
